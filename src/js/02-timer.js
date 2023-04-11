@@ -74,6 +74,7 @@ refs.startBtn.disabled = true;
 refs.startBtn.addEventListener('click', () => {
    timer.start(startTime);
 })
+let startTime = null;
 const options = {
   enableTime: true,
   time_24hr: true,
