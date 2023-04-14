@@ -25,7 +25,7 @@ function onButtonClick(e) {
    let delay = formInputsStorage.delay;
    // console.log(delay);
    let position=0;
-   for (i = 0; i < formInputsStorage.amount; i += 1) {
+   for (let i = 0; i < formInputsStorage.amount; i += 1) {
       delay += formInputsStorage.step;
       position += 1;
       // console.log(delay);
@@ -54,4 +54,4 @@ function createPromise(position, delay) {
   .catch(({ position, delay }) => {
    Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
   });
-}
+};
