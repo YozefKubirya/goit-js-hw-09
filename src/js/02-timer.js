@@ -15,34 +15,41 @@ const DELAY = 1000;
 let startTime = null;
 refs.startBtn.disabled = true;
 refs.startBtn.addEventListener('click', () => {
-   timer.start();
+   timer.start(startTime);
 })
-const timer = {
-   isActive: false, 
-   timerId:null,
-   start() {
+class Timer{
+   constructor({onTick}) {
+      this.intervalId = null;
+      this.isActive = false;
+      this.onTick = onTick;
+   }
+   start(startTime) {
       if (this.isActive) {
          return;
-      };
-      this.isActive = true;
-    
-   this.timerId =  setInterval(() => {
-         const currentTime = Date.now();
-      const deltaTime = startTime - currentTime;
-         const timerEditor = convertMs(deltaTime);
-      const time = updateClockface(timerEditor);
-      if (deltaTime <= 0) {
-         this.stop();
       }
-      },DELAY)
-   },
+      this.startTime = startTime;
+      this.isActive = true;
+     this.intervalId= setInterval(()=>{
+         const currentTime = Date.now();
+         
+         const deltaTime = startTime-currentTime;
+         
+        const time = convertMs(deltaTime);
+        this.onTick(time);
+        if (deltaTime <= 0) {
+         this.stop()
+      }
+      }, 1000)
+   }
    stop() {
-      clearInterval(this.timerId);
+      clearInterval(this.intervalId);
       this.isActive = false;
-      timerEditor = convertMs(0);
-      time = updateClockface(timerEditor);
+      const time = convertMs(0)
+      this.onTick(time)
    }
 }
+const timer = new Timer({onTick:updateClockface})
+refs.startBtn.disabled = true;
 
 const options = {
   enableTime: true,
@@ -94,36 +101,30 @@ function convertMs(ms) {
 
 
 flatpickr(refs.input, options);
-// class Timer{
-//    constructor({onTick}) {
-//       this.intervalId = null;
-//       this.isActive = false;
-//       this.onTick = onTick;
-//    }
-//    start(startTime) {
+// const timer = {
+//    isActive: false, 
+//    timerId:null,
+//    start() {
 //       if (this.isActive) {
 //          return;
-//       }
-//       this.startTime = startTime;
+//       };
 //       this.isActive = true;
-//      this.intervalId= setInterval(()=>{
+    
+//    this.timerId =  setInterval(() => {
 //          const currentTime = Date.now();
-         
-//          const deltaTime = startTime-currentTime;
-         
-//         const time = convertMs(deltaTime);
-//         this.onTick(time);
-//         if (deltaTime <= 0) {
-//          this.stop()
+//       const deltaTime = startTime - currentTime;
+//          const timerEditor = convertMs(deltaTime);
+//       const time = updateClockface(timerEditor);
+//       if (deltaTime <= 0) {
+//          this.stop();
 //       }
-//       }, 1000)
-//    }
+//       },DELAY)
+//    },
 //    stop() {
-//       clearInterval(this.intervalId);
+//       clearInterval(this.timerId);
 //       this.isActive = false;
-//       const time = convertMs(0)
-//       this.onTick(time)
+//       timerEditor = convertMs(0);
+//       time = updateClockface(timerEditor);
 //    }
 // }
-// const timer = new Timer({onTick:updateClockface})
-// refs.startBtn.disabled = true;
+// 
