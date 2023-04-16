@@ -49,7 +49,7 @@ class Timer{
    }
 }
 const timer = new Timer({onTick:updateClockface})
-refs.startBtn.disabled = true;
+
 
 const options = {
   enableTime: true,
