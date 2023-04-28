@@ -8,7 +8,7 @@ refs.stopBtn.addEventListener('click', onStopBtnClick)
 
 const delayValue = 1000;
 let intervalId = null;
-
+refs.stopBtn.disabled = true;
 function onStartBtnClick() {
    refs.startBtn.disabled = true;
    refs.stopBtn.disabled = false;
