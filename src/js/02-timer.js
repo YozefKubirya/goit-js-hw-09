@@ -50,6 +50,7 @@ class Timer{
       }
       this.startTime = startTime;
       this.isActive = true;
+     
      this.intervalId= setInterval(()=>{
          const currentTime = Date.now();
          
@@ -69,11 +70,13 @@ class Timer{
       this.onTick(time)
    }
 }
-const timer = new Timer({onTick:updateClockface})
-refs.startBtn.disabled = true;
 
+const timer = new Timer({onTick:updateClockface})
+
+refs.startBtn.disabled = true;
 refs.startBtn.addEventListener('click', () => {
    timer.start(startTime);
+   
 })
 
 let startTime = null;
@@ -85,13 +88,19 @@ const options = {
   minuteIncrement: 1,
    onClose(selectedDates) {
       console.log(selectedDates[0]);
-    startTime =selectedDates[0]
+      
+      startTime = selectedDates[0];
+
       if (selectedDates[0] < Date.now()) {
          window.alert('please choose date in future');
-         
-      };
-      refs.startBtn.disabled = false;
+        
+      } else {
+        refs.startBtn.disabled = false;
+      }
+      
+      
    }
+   
 };
 
 
