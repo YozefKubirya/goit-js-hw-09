@@ -2,28 +2,34 @@ import Notiflix from "notiflix";
 import debounce from "lodash.debounce";
 const refs = {
    form: document.querySelector('.form'),
-   button: document.querySelector('button')
+   button: document.querySelector('button[type=submit]')
 };
 
 refs.form.addEventListener('submit', onInputForm);
 
+function onBtnClick(delayValue) {
+   setTimeout(() => {
+      refs.button.disabled = false;
+      refs.form.reset();
+   },delayValue+2000)
+}
 function onInputForm(e) {
+   refs.button.disabled = true;
    e.preventDefault();
    const { delay, step, amount } = e.target.elements;
    let delayValue = Number(delay.value);
-  
-  
-   
-   
+  let total=delayValue-Number(step.value)
    for (let i = 1; i <= amount.value; i += 1){
-   
-      createPromise(i, delayValue).then(() => { Notiflix.Notify.success(`✅ Fulfilled promise ${i} in ${delayValue += Number(step.value)}ms`) }).catch(() => {
-         Notiflix.Notify.failure(`❌ Rejected promise ${i} in ${delayValue += Number(step.value)} ms`);
+     
+      createPromise(i, delayValue).then(() => { Notiflix.Notify.success(`✅ Fulfilled promise ${i} in ${total+= Number(step.value)}ms`) }).catch(() => {
+         Notiflix.Notify.failure(`❌ Rejected promise ${i} in ${total+= Number(step.value)} ms`);
       });
-      ;
+       delayValue += Number(step.value);
+      console.log(delayValue)
 
    }
-  
+   onBtnClick(delayValue);
+
    }
    
 
@@ -32,11 +38,11 @@ function createPromise(position,delay) {
        const shouldResolve = Math.random() > 0.3;
       setTimeout(() => {
          if (shouldResolve) {
-            resolve({ position,delay });
+            resolve( position,delay );
          } else {
-            reject({ position,delay });
+            reject( position,delay );
          }
-      },);
+      },delay);
    });  
 };  
 // function onButtonClick(e) {
